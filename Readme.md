@@ -125,6 +125,27 @@ If a token does not have a value, an empty String is used in its place.
 
 ```
 
+### string.pad( num:Number, len:Number[, radix:Number] ):String
+Returns a String representation of the passed Number instance with leading zeros. The String's minimum length will be equal to the passed `len` parameter.
+
+The method also accepts an optional `radix` parameter. The default `radix` is 10.
+
+#### Example:
+
+```javascript
+
+    string.pad( 16, 4 );     // returns =>  "0016"
+
+    string.pad( 16, 4, 8 );  // returns =>  "0020"
+
+    string.pad( 16, 4, 10 ); // returns =>  "0016"
+
+    string.pad( 16, 4, 16 ); // returns =>  "0010"
+
+    string.pad( 16, 4, 2 );  // returns => "10000"
+
+```
+
 ### string.toCamelCase( item:String ):String
 Returns a copy of the String with any spaces and/ or hyphens removed and the lowercase character succeeding them transformed to uppercase.
 

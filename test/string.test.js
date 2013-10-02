@@ -42,12 +42,25 @@ suite( 'muigui/useful-string', function() {
 			one   : 'quick', two  : 'brown',
 			three : 'fox',   four : 'lazy',
 			five  : 'dog'
-		} ) ).to.deep.equal( 'The quick brown fox jumps over the lazy dog.' );
+		} ) ).to.equal( 'The quick brown fox jumps over the lazy dog.' );
 		expect( string.interpolate( 'The ===one=== ===two=== ===three=== jumps over the ===four=== ===five===.', {
 			one   : 'quick', two  : 'brown',
 			three : 'fox',   four : 'lazy',
 			five  : 'dog'
-		}, /={3}([^=]+)={3}/g ) ).to.deep.equal( 'The quick brown fox jumps over the lazy dog.' );
+		}, /={3}([^=]+)={3}/g ) ).to.equal( 'The quick brown fox jumps over the lazy dog.' );
+
+		done();
+	} );
+
+	test( '<static> string.pad', function( done ) {
+		expect( string.pad( 1, 3 ) ).to.equal( '001' );
+		expect( string.pad( 100, 3 ) ).to.equal( '100' );
+
+		expect( string.pad( 16, 4 ) ).to.equal( '0016' );
+		expect( string.pad( 16, 4, 8 ) ).to.equal( '0020' );
+		expect( string.pad( 16, 4, 10 ) ).to.equal( '0016' );
+		expect( string.pad( 16, 4, 16 ) ).to.equal( '0010' );
+		expect( string.pad( 16, 4, 2 ) ).to.equal( '10000' );
 
 		done();
 	} );

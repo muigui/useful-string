@@ -52,6 +52,16 @@
 			return item ? 'id' in Object( item ) && item.id ? item.id : ( item.id = id_create( prefix ) ) : id_create( prefix );
 		},
 		interpolate : interpolate,
+		pad         : function( num, len, radix ) {
+			var s = Number( num ).toString( radix || 10 ),
+				i = -1,
+				l = len - s.length;
+
+			while ( ++i < l )
+				s = '0' + s;
+
+			return s;
+		},
 		toCamelCase : function toCamelCase( item ) {
 			var parts = splitString( item );
 
