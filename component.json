@@ -11,5 +11,5 @@
 	"name"         : "useful-string",
 	"repo"         : "muigui/useful-string",
 	"scripts"      : ["index.js"],
-	"version"      : "0.0.1"
+	"version"      : "0.0.2"
 }

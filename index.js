@@ -13,7 +13,7 @@
 
 	function interpolate( str, o, pattern ) {
 		return String( str ).replace( ( pattern || re_gsub ), function( m, p ) {
-			return o[p] || '';
+			return o.hasOwnProperty(p) ? o[p] : '';
 		} );
 	}
 

@@ -8,7 +8,7 @@ suite( 'muigui/useful-string', function() {
 
 		done();
 	} );
-	
+
 	test( '<static> string.format', function( done ) {
 		expect( string.format( '{0}, {1}, {2}, {3}, {4}, {5}, {6}, ${7}, ${8}, ${9}', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ) ).to.deep.equal( 'zero, one, two, three, four, five, six, seven, eight, nine' );
 		expect( string.format( '{ "{0}" : \'{1}\', "${2}" : \'${3}\' }', 'zero', 'one', 'two', 'three' ) ).to.deep.equal( '{ "zero" : \'one\', "two" : \'three\' }' );
@@ -48,6 +48,11 @@ suite( 'muigui/useful-string', function() {
 			three : 'fox',   four : 'lazy',
 			five  : 'dog'
 		}, /={3}([^=]+)={3}/g ) ).to.equal( 'The quick brown fox jumps over the lazy dog.' );
+
+		expect( string.interpolate( 'The {falsey} to be true.', {
+			falsey : false
+		} ) ).to.equal( 'The false to be true.' );
+
 
 		done();
 	} );
