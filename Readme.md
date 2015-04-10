@@ -4,13 +4,29 @@
 
 ## Installation
 
-  Install with [component(1)](http://component.io):
+```shell
 
-    $ component install muigui/useful-string
+    >$ npm install useful-string
 
-  Install with npm:
+```
 
-    $ npm install useful-string
+## Test
+
+```shell
+
+    useful-string>$ npm test
+
+```
+
+## Build
+
+if you want to convert useful-string into es5, you can simply run:
+
+```shell
+
+    useful-string>$ npm run build
+
+```
 
 ## API
 
