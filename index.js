@@ -1,76 +1,88 @@
-	function capitalize( item ) {
-		return item.charAt( 0 ).toUpperCase() + item.substring( 1 ).toLowerCase();
-	}
+"use strict";
 
-	function guid_replace( match ) {
-		var num = ( Math.random() * 16 ) | 0;
-		return ( match == 'x' ? num : ( num & 0x3 | 0x8 ) ).toString( 16 );
-	}
+export function capitalize(item) {
+    return item.charAt(0).toUpperCase() + item.substring(1).toLowerCase();
+}
 
-	function id_create( prefix ) {
-		return ( prefix || id_prefix ) + '-' + ( ++id_count );
-	}
+export function format(item) {
+    return interpolate(item, Array.prototype.slice.call(arguments, 1));
+}
 
-	function interpolate( str, o, pattern ) {
-		return String( str ).replace( ( pattern || re_gsub ), function( m, p ) {
-			return o.hasOwnProperty(p) ? o[p] : '';
-		} );
-	}
+export function guid() { // credit for guid goes here: gist.github.com/2295777
+    return tpl_guid.replace(re_guid, guid_replace);
+}
 
-	// so we don't lose any chars on split
-	function _splitString( m, p ) { return p + p.toLowerCase(); }
-	function  splitString( s ) {
-		s = s.trim();
-		var s0 = s.charAt( 0 ), s1 = s.charAt( 1 ),
-			 i = s0.toLowerCase() == s0 && s1 != ' ' && s1.toUpperCase() == s1 ? 2 : 1,
-			 o = s.substring( i ).replace( re_caps, _splitString ).split( re_split_string );
-		o[0] = s.substring( 0, i ) + o[0];
-		return o;
-	}
+export function hyphenate(item) {
+    return splitString(item).join('-').toLowerCase();
+}
 
-	var id_count        = 999,
-		id_prefix       = 'anon',
-		re_caps         = /([A-Z])/g,
-		re_gsub         =  /\$?\{([^\}'"]+)\}/g,
-		re_guid         = /[xy]/g,
-		re_split_string = /[\sA-Z_-]+/g,
-		tpl_guid        = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+export function id(item, prefix) {
+    return item ? 'id' in Object(item) && item.id ? item.id : (item.id = id_create(prefix)) : id_create(prefix);
+}
 
+export function interpolate(str, o, pattern) {
+    return String(str).replace((pattern || re_interpolate), function (m, p) {
+        return p in o ? o[p] : '';
+    });
+}
 
-	module.exports = {
-		capitalize  : capitalize,
-		format      : function format( item ) {
-			return interpolate( item, Array.prototype.slice.call( arguments, 1 ) );
-		},
-		guid        : function guid() { // credit for guid goes here: gist.github.com/2295777
-			return tpl_guid.replace( re_guid, guid_replace );
-		},
-		hyphenate   : function hyphenate( item ) {
-			return splitString( item ).join( '-' ).toLowerCase();
-		},
-		id          : function id( item, prefix ) {
-			return item ? 'id' in Object( item ) && item.id ? item.id : ( item.id = id_create( prefix ) ) : id_create( prefix );
-		},
-		interpolate : interpolate,
-		pad         : function( num, len, radix ) {
-			var s = Number( num ).toString( radix || 10 ),
-				i = -1,
-				l = len - s.length;
+export function pad(num, len, radix) {
+    var s = Number(num).toString(radix || 10);
+    var i = -1;
+    var l = len - s.length;
 
-			while ( ++i < l )
-				s = '0' + s;
+    while (++i < l) {
+        s = '0' + s;
+    }
 
-			return s;
-		},
-		toCamelCase : function toCamelCase( item ) {
-			var parts = splitString( item );
+    return s;
+}
 
-			return parts.reduce( function( res, val ) {
-				res.push( capitalize( val ) );
-				return res;
-			}, [parts.shift()] ).join( '' );
-		},
-		underscore  : function underscore( item ) {
-			return splitString( item ).join( '_' ).toLowerCase();
-		}
-	};
+export function space(item) {
+    return splitString(item).join(' ');
+}
+
+export function toCamelCase(item) {
+    var parts = splitString(item);
+
+    return parts.reduce(function (res, val) {
+        res.push(capitalize(val));
+        return res;
+    }, [parts.shift()]).join('');
+}
+
+export function underscore(item) {
+    return splitString(item).join('_').toLowerCase();
+}
+
+function guid_replace(match) {
+    var num = (Math.random() * 16) | 0;
+    return (match == 'x' ? num : (num & 0x3 | 0x8)).toString(16);
+}
+
+function id_create(prefix) {
+    return (prefix || uid_prefix) + '-' + (++uid_count);
+}
+
+// so we don't lose any chars on split
+function _splitString(m, p) { return p + p.toLowerCase(); }
+function splitString(s) {
+    s = s.trim();
+
+    var s0 = s.charAt(0), s1 = s.charAt(1);
+    var i = s0.toLowerCase() == s0 && s1 != ' ' && s1.toUpperCase() == s1 ? 2 : 1;
+    var o = s.substring(i).replace(re_caps, _splitString).split(re_split_string);
+
+    o[0] = s.substring(0, i) + o[0];
+
+    return o;
+}
+
+var uid_count = 999;
+var uid_prefix = 'anon';
+var re_caps = /([A-Z])/g;
+var re_guid = /[xy]/g;
+var re_interpolate = /\$?\{([^\}'"]+)\}/g;
+var re_split_string = /[\sA-Z_-]+/g;
+var tpl_guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+
